@@ -8,6 +8,7 @@ public class TestGeometry {
         test.testDimensions();
         test.testEncapsulate();
         test.testVolume();
+        test.testCompareTo();
         System.out.println("Test mit " + TestModules.getAnzahlFehler() + " Fehlern abgeschlossen");
     }
 
@@ -108,6 +109,20 @@ public class TestGeometry {
         TestModules.assertBool(new Point(1,1,1).volume() == 0, "Das Volume von Point ist falsch");
         TestModules.assertBool((new Rectangle(new Point2D(1,1), new Point2D(3,3))).volume() == 4, "Das Volume von Rectangle ist falsch");
         TestModules.assertBool((new Volume(new Point(1,1,1), new Point(3,3,3))).volume() == 8, "Das Volume von Volume ist falsch");
+    }
+
+    /**
+     * Testet compareTo
+     */
+    public void testCompareTo() {
+        Volume vol1 = new Volume(new Point(0,0,0), new Point(3,3,3));
+        Volume vol2 = new Volume(new Point(1,1,1), new Point(3,3,3));
+        Volume vol3 = new Volume(new Point(2,2,2), new Point(3,3,3));
+        Volume vol4 = new Volume(new Point(0,0,0), new Point(3,3,3));
+
+        TestModules.assertBool(vol1.compareTo(vol2) > 0 && vol2.compareTo(vol3) > 0 && vol1.compareTo(vol3) > 0, "Fehler bei der Transitivität von compareTo()");
+
+        TestModules.assertBool(vol1.compareTo(vol4) == 0, "Fehler bei compareTo() mit gleichem Volume");
     }
 
 }
