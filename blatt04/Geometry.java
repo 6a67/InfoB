@@ -55,6 +55,11 @@ public abstract class Geometry implements Comparable<Geometry> {
     */
    public abstract Geometry encapsulate(Geometry other);
 
+   /**
+    * Compares two volumes of Geometry objects
+    * @param o the second Geometry object
+    * @return an int that shows if the volume is bigger, smaller or even
+    */
    @Override
    public int compareTo(Geometry o) {
       int returnVolume = (int) (this.volume() - o.volume());

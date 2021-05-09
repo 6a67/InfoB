@@ -61,7 +61,7 @@ public class Volume extends Geometry {
     }
 
     /**
-     * A function that is used for encapsulate, but uses recursion and therefore has its own function
+     * A function that is used to help the encapsulate function
      * @param other Object that should be encapsulated
      * @return Returns a Geometry object that encapsulates both objects
      */
@@ -91,7 +91,6 @@ public class Volume extends Geometry {
             return new Volume(g, k);
         }
         return null;
-
     }
 
     /**
