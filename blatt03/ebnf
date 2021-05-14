@@ -1,0 +1,5 @@
+Expr ::= Bruch | "( " Expr " )" | Expr {" " Operator " " Expr}
+Bruch ::= ["-"] NullBisNeun{NullBisNeun} "/" Zaehler{NullBisNeun}
+NullBisNeun ::= "0" | "1" | "2" | ... | "9"
+Zaehler ::= "1" | "2" | ... | "9"
+Operator ::= "+" | "-" | "*" | "/"
