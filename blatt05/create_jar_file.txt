@@ -1,0 +1,5 @@
+# Gibt class an, in der die Main-Methode ist
+javac -d ./out/production/blatt05/ ./src/bruchrechner/*.java
+
+echo "Main-Class: bruchrechner.Calculator" >> ./out/production/blatt05/manifest.txt
+cd ./out/production/blatt05/ && jar -cvfm calc.jar manifest.txt bruchrechner && cd - && mv ./out/production/blatt05/calc.jar calc.jar
