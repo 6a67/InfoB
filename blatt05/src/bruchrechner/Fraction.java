@@ -195,21 +195,33 @@ public class Fraction extends Number {
       return numerator + "/" + denominator;
    }
 
+   /**
+    * @return int value of the fraction
+    */
    @Override
    public int intValue() {
       return (int) (numerator / denominator);
    }
 
+   /**
+    * @return long value of the fraction
+    */
    @Override
    public long longValue() {
       return ((long) numerator / denominator);
    }
 
+   /**
+    * @return float value of the fraction
+    */
    @Override
    public float floatValue() {
       return ((float) numerator / denominator);
    }
 
+   /**
+    * @return double value of the fraction
+    */
    @Override
    public double doubleValue() {
       return ((double) numerator / denominator);
