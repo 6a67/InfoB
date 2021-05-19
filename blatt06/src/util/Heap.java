@@ -24,11 +24,19 @@ public class Heap<T> {
         this.comparator = comparator;
     }
 
+    /**
+     * Increases the size of the Array elements by i
+     * @param i amount to increase the array by
+     */
     private void increaseArraySize(int i) {
         elements = Arrays.copyOf(elements, elements.length + i);
         //arraySize += i;
     }
 
+    /**
+     * Inserts the given object into the heap
+     * @param o object to insert
+     */
     public void insert(T o) {
         // If array is full, increase its size to 1.5
         if(elementsInArray >= elements.length) {
@@ -39,7 +47,10 @@ public class Heap<T> {
         return;
     }
 
-
+    /**
+     * Deletes the first/biggest element of the heap and return it
+     * @return first element of the heap
+     */
     public T deleteFirst() {
         if(empty()) return null;
 
@@ -55,6 +66,9 @@ public class Heap<T> {
 
     }
 
+    /**
+     * Sifts the heap up
+     */
     private void siftUpCompareTo() {
         int i = elementsInArray - 1; // Index of the last element
         while(i > 0) {
@@ -75,7 +89,9 @@ public class Heap<T> {
         }
     }
 
-
+    /**
+     * Sifts the heap down
+     */
     private void siftDownCompareTo() {
         int i = 0; // Index of the first element
         int leftChildIndex = 2 * i + 1;
@@ -105,7 +121,6 @@ public class Heap<T> {
         }
     }
 
-
     /**
      * Same as siftUpCompareTo, but uses comparator.compare instead of compareTo
      * And removed the Comparable<? super T> cast
@@ -131,7 +146,10 @@ public class Heap<T> {
         }
     }
 
-
+    /**
+     * Same as siftDownCompareTo, but uses comparator.compare instead of compareTo
+     * And removed the Comparable<? super T> cast
+     */
     private void siftDownComparator() {
         int i = 0; // Index of the first element
         int leftChildIndex = 2 * i + 1;
@@ -161,9 +179,6 @@ public class Heap<T> {
         }
     }
 
-
-
-
     /**
      * Swaps the position of two elements in the array by their index
      * @param i index of the first element
@@ -175,6 +190,9 @@ public class Heap<T> {
         elements[j] = tmp;
     }
 
+    /**
+     * Decides which sift up method should be used
+     */
     private void siftUp() {
         if(comparator == null) {
             siftUpCompareTo();
@@ -183,6 +201,9 @@ public class Heap<T> {
         }
     }
 
+    /**
+     * Decides which sift down method should be used
+     */
     private void siftDown() {
         if(comparator == null) {
             siftDownCompareTo();
@@ -191,7 +212,10 @@ public class Heap<T> {
         }
     }
 
-
+    /**
+     * Checks if there are no elements in the heap
+     * @return true if there are no elements in the heap, false if there are elements in the heap
+     */
     public boolean empty() {
         return elementsInArray == 0;
     }
