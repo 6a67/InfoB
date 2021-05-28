@@ -3,6 +3,10 @@ package util;
 import java.util.Arrays;
 import java.util.Comparator;
 
+/**
+ * Implementation of a Heap
+ * @param <T> The type that the Heap should be
+ */
 public class Heap<T> {
 
     private T[] elements;
@@ -38,13 +42,18 @@ public class Heap<T> {
      * @param o object to insert
      */
     public void insert(T o) {
+        if(o == null) {
+            // Null itself would be a valid input for most other Collection types, but a Heap
+            // is build upon comparisons and it is not really possible to compare null
+            throw new NullPointerException();
+        }
+
         // If array is full, increase its size to 1.5
         if(elementsInArray >= elements.length) {
             increaseArraySize((int) (elements.length * 0.5) + 1);
         }
         elements[elementsInArray++] = o;
         siftUp();
-        return;
     }
 
     /**
@@ -167,7 +176,7 @@ public class Heap<T> {
 
             // Check if the biggest child is bigger than the node
             T parent =  elements[i];
-            if(comparator.compare(parent, elements[biggestChildIndex]) > 0) {
+            if(comparator.compare(parent, elements[biggestChildIndex]) < 0) {
                 swap(biggestChildIndex, i);
 
                 // move the the next level

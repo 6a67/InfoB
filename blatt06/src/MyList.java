@@ -100,15 +100,23 @@ public class MyList<T> implements Cloneable {
         pos.next = pos.next.next;
     }
 
-    private MyList(MyList<T> toCopyList) {
-        this.begin = toCopyList.begin;
-        this.pos = toCopyList.pos;
-    }
+    /**
+     * Clone Methode
+     * @return cloned object
+     * @throws CloneNotSupportedException
+     */
+    protected Object clone() throws CloneNotSupportedException {
+        MyList<T> returnList = (MyList<T>) super.clone();
 
-    protected MyList<T> clone() throws CloneNotSupportedException {
-        //MyList<T> returnList = new MyList<T>(this);
-        //return returnList;
-        return (MyList<T>) super.clone();
+        if(this.begin == this.pos) {
+            returnList.begin = (MyEntry<T>) this.begin.clone();
+            returnList.pos = returnList.begin;
+        } else {
+            returnList.begin = (MyEntry<T>) this.begin.clone();
+            returnList.pos = (MyEntry<T>) this.pos.clone();
+        }
+
+        return returnList;
     }
 
 }

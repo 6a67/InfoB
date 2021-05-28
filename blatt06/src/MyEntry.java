@@ -1,4 +1,4 @@
-public class MyEntry<T> {
+public class MyEntry<T> implements Cloneable {
 
     T o;
     MyEntry<T> next;
@@ -16,4 +16,16 @@ public class MyEntry<T> {
         this.next = e;
     }
 
+    /**
+     * Clone Methode
+     * @return cloned object
+     * @throws CloneNotSupportedException
+     */
+    protected Object clone() throws CloneNotSupportedException {
+        MyEntry<T>  cloned = (MyEntry<T>) super.clone();
+        if(cloned.next != null) {
+            cloned.next = (MyEntry<T>) cloned.next.clone();
+        }
+        return cloned;
+    }
 }

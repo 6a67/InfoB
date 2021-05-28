@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Random;
 
+/**
+ * Vergleicht die Zeiten der verscheidenen Funktionen von HashSet, ArrayList und LinkedList
+ */
 public class CompareCollection {
 
     private static int times = 10000;;
@@ -28,7 +31,11 @@ public class CompareCollection {
 
     }
 
-
+    /**
+     * Testest die add Methode
+     * @param o Datentyp von AbstractCollection, welcher gestestet werden soll
+     * @return Benötigte Zeit pro Item
+     */
     public static long testAdd(AbstractCollection<Integer> o) {
         Random rdm = new Random();
         long startTime = System.nanoTime();
@@ -39,6 +46,11 @@ public class CompareCollection {
         return (System.nanoTime() - startTime) / times;
     }
 
+    /**
+     * Testest die remove Methode
+     * @param o Datentyp von AbstractCollection, welcher gestestet werden soll
+     * @return Benötigte Zeit pro Item
+     */
     public static long testRemove(AbstractCollection<Integer> o) {
         Random rdm = new Random();
         long startTime = System.nanoTime();
@@ -48,6 +60,11 @@ public class CompareCollection {
         return (System.nanoTime() - startTime) / times;
     }
 
+    /**
+     * Testest die contains Methode
+     * @param o Datentyp von AbstractCollection, welcher gestestet werden soll
+     * @return Benötigte Zeit pro Item
+     */
     public static long testContains(AbstractCollection<Integer> o) {
         Random rdm = new Random();
         long startTime = System.nanoTime();
@@ -58,6 +75,11 @@ public class CompareCollection {
         return (System.nanoTime() - startTime) / times;
     }
 
+    /**
+     * Testet alle drei Funktionen je drei mal
+     * @param o Datentyp von AbstractCollection, welcher gestestet werden soll
+     * @return Ein 2D Array, in welchem die einzelnen Testzeiten und deren Durchschnitt zurück gegeben werden
+     */
     public static long[][] testAll(AbstractCollection<Integer> o) {
         long[] testTimes = new long[9];
         for(int i = 0; i < 3; i++) {
@@ -76,6 +98,11 @@ public class CompareCollection {
         return new long[][]{testTimes, averages};
     }
 
+    /**
+     * Gibt die Testzeiten aus
+     * @param type Type von dem die Zeiten stammen
+     * @param testTime Array mit den Testzeiten
+     */
     public static void printTestTimes(String type, long[][] testTime) {
         System.out.format("%-16s", type);
         for(long t : testTime[0]) {
