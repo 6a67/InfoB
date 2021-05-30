@@ -78,15 +78,15 @@ public class Heap<T> {
     /**
      * Sifts the heap up
      */
-    private void siftUpCompareTo() {
+    private void siftUp() {
         int i = elementsInArray - 1; // Index of the last element
         while(i > 0) {
             int p = (i - 1) / 2; // Index of the parent
-            // Element has to have to the compareTo function
-            Comparable<? super T> element = (Comparable<? super T>) elements[i];
+
+            T element = elements[i];
             T parent = elements[p];
 
-            if(element.compareTo(parent) > 0) {
+            if(compareElements(element, parent) > 0) {
                 // swap
                 swap(i, p);
 
@@ -101,65 +101,7 @@ public class Heap<T> {
     /**
      * Sifts the heap down
      */
-    private void siftDownCompareTo() {
-        int i = 0; // Index of the first element
-        int leftChildIndex = 2 * i + 1;
-        while(leftChildIndex < elementsInArray) {
-            int rightChildIndex = leftChildIndex + 1;
-            int biggestChildIndex = leftChildIndex;
-
-            // Compare left child to right child
-            if(rightChildIndex < elementsInArray) { // Checks if a right child exists
-                Comparable<? super T> rightChild = (Comparable<? super T>) elements[rightChildIndex];
-                if(rightChild.compareTo(elements[leftChildIndex]) > 0) {
-                    biggestChildIndex = rightChildIndex;
-                }
-            }
-
-            // Check if the biggest child is bigger than the node
-            Comparable<? super T> parent = (Comparable<? super T>) elements[i];
-            if(parent.compareTo(elements[biggestChildIndex]) < 0) {
-                swap(biggestChildIndex, i);
-
-                // move the the next level
-                i = biggestChildIndex;
-                leftChildIndex = 2 * i + 1;
-            } else {
-                break;
-            }
-        }
-    }
-
-    /**
-     * Same as siftUpCompareTo, but uses comparator.compare instead of compareTo
-     * And removed the Comparable<? super T> cast
-     */
-    private void siftUpComparator() {
-        int i = elementsInArray - 1; // Index of the last element
-        while(i > 0) {
-            int p = (i - 1) / 2; // Index of the parent
-            // Element has to have to the compareTo function
-            T element = elements[i];
-            T parent = elements[p];
-
-            //if(element.compareTo(parent) > 0) {
-            if(comparator.compare(element, parent) > 0) {
-                // swap
-                swap(i, p);
-
-                // move the the next level
-                i = p;
-            } else {
-                break;
-            }
-        }
-    }
-
-    /**
-     * Same as siftDownCompareTo, but uses comparator.compare instead of compareTo
-     * And removed the Comparable<? super T> cast
-     */
-    private void siftDownComparator() {
+    private void siftDown() {
         int i = 0; // Index of the first element
         int leftChildIndex = 2 * i + 1;
         while(leftChildIndex < elementsInArray) {
@@ -169,14 +111,14 @@ public class Heap<T> {
             // Compare left child to right child
             if(rightChildIndex < elementsInArray) { // Checks if a right child exists
                 T rightChild = elements[rightChildIndex];
-                if(comparator.compare(rightChild, elements[leftChildIndex]) > 0) {
+                if(compareElements(rightChild, elements[leftChildIndex]) > 0) {
                     biggestChildIndex = rightChildIndex;
                 }
             }
 
             // Check if the biggest child is bigger than the node
-            T parent =  elements[i];
-            if(comparator.compare(parent, elements[biggestChildIndex]) < 0) {
+            T parent = elements[i];
+            if(compareElements(parent, elements[biggestChildIndex]) < 0) {
                 swap(biggestChildIndex, i);
 
                 // move the the next level
@@ -187,6 +129,7 @@ public class Heap<T> {
             }
         }
     }
+
 
     /**
      * Swaps the position of two elements in the array by their index
@@ -200,24 +143,16 @@ public class Heap<T> {
     }
 
     /**
-     * Decides which sift up method should be used
+     * Compares two elements with compareTo or a comparator
+     * @param a first element
+     * @param b seconds element
+     * @return result of the comparison
      */
-    private void siftUp() {
+    private int compareElements(T a, T b) {
         if(comparator == null) {
-            siftUpCompareTo();
+            return ((Comparable<T>)a).compareTo(b);
         } else {
-            siftUpComparator();
-        }
-    }
-
-    /**
-     * Decides which sift down method should be used
-     */
-    private void siftDown() {
-        if(comparator == null) {
-            siftDownCompareTo();
-        } else {
-            siftDownComparator();
+            return comparator.compare(a, b);
         }
     }
 
