@@ -12,7 +12,7 @@ public class CompareCollection {
     private static int times = 10000;;
 
     public static void main(String[] args) {
-        System.out.format("%-16s%-16s%-16s%-16s%-16s%-16s%-16s%-16s%-16s%-16s%-16s%-16s%-16s\n", "Type", "Add 1", "Remove 1", "Contains 1", "Add 2", "Remove 2", "Contains 2", "Add 3", "Remove 3", "Contains 3", "Add Avg.", "Remove Avg.", "Contains Avg.");
+        System.out.format("%-16s%-16s%-16s%-16s%-16s%-16s%-16s%-16s%-16s%-16s%-16s%-16s%-16s\n", "Type", "Add 1", "Add 2", "Add 3", "Remove 1", "Remove 2", "Remove 3", "Contains 1", "Contains 2", "Contains 3", "Add Avg.", "Remove Avg.", "Contains Avg.");
         //System.out.println("--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
 
         for(int i = 0; i < 16*13; i++) {
