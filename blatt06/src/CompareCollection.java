@@ -10,6 +10,7 @@ import java.util.Random;
 public class CompareCollection {
 
     private static int times = 10000;;
+    private static int rdmBound = 1000;
 
     public static void main(String[] args) {
         System.out.format("%-16s%-16s%-16s%-16s%-16s%-16s%-16s%-16s%-16s%-16s%-16s%-16s%-16s\n", "Type", "Add 1", "Add 2", "Add 3", "Remove 1", "Remove 2", "Remove 3", "Contains 1", "Contains 2", "Contains 3", "Add Avg.", "Remove Avg.", "Contains Avg.");
@@ -40,7 +41,7 @@ public class CompareCollection {
         Random rdm = new Random();
         long startTime = System.nanoTime();
         for(int i = 0; i < times; i++) {
-            o.add(rdm.nextInt(Integer.MAX_VALUE));
+            o.add(rdm.nextInt(rdmBound));
         }
 
         return (System.nanoTime() - startTime) / times;
@@ -55,7 +56,7 @@ public class CompareCollection {
         Random rdm = new Random();
         long startTime = System.nanoTime();
         for(int i = 0; i < times; i++) {
-            o.remove(rdm.nextInt(Integer.MAX_VALUE));
+            o.remove(rdm.nextInt(rdmBound));
         }
         return (System.nanoTime() - startTime) / times;
     }
@@ -69,7 +70,7 @@ public class CompareCollection {
         Random rdm = new Random();
         long startTime = System.nanoTime();
         for(int i = 0; i < times; i++) {
-            o.contains(rdm.nextInt(Integer.MAX_VALUE));
+            o.contains(rdm.nextInt(rdmBound));
         }
 
         return (System.nanoTime() - startTime) / times;
