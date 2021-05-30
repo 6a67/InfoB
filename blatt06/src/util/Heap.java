@@ -76,6 +76,14 @@ public class Heap<T> {
     }
 
     /**
+     * Returns the first element without deleting it from the heap
+     * @return the first element in the heap
+     */
+    public T getFirst() {
+        return elements[0];
+    }
+
+    /**
      * Sifts the heap up
      */
     private void siftUp() {
@@ -86,7 +94,7 @@ public class Heap<T> {
             T element = elements[i];
             T parent = elements[p];
 
-            if(compareElements(element, parent) > 0) {
+            if(compareElements(element, parent) < 0) {
                 // swap
                 swap(i, p);
 
@@ -111,14 +119,14 @@ public class Heap<T> {
             // Compare left child to right child
             if(rightChildIndex < elementsInArray) { // Checks if a right child exists
                 T rightChild = elements[rightChildIndex];
-                if(compareElements(rightChild, elements[leftChildIndex]) > 0) {
+                if(compareElements(rightChild, elements[leftChildIndex]) < 0) {
                     biggestChildIndex = rightChildIndex;
                 }
             }
 
             // Check if the biggest child is bigger than the node
             T parent = elements[i];
-            if(compareElements(parent, elements[biggestChildIndex]) < 0) {
+            if(compareElements(parent, elements[biggestChildIndex]) > 0) {
                 swap(biggestChildIndex, i);
 
                 // move the the next level
