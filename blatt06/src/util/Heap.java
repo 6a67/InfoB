@@ -80,6 +80,7 @@ public class Heap<T> {
      * @return the first element in the heap
      */
     public T getFirst() {
+        if(empty()) return null;
         return elements[0];
     }
 
