@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 
 /**
- *
+ * This class is a representation of a persistent Integer array
  */
 public class PersistentesArray {
     private RandomAccessFile file;
@@ -29,21 +29,10 @@ public class PersistentesArray {
     public PersistentesArray(String file_name) throws IOException {
         File test_file = new File(file_name);
         if (!test_file.exists()) {
-            System.err.println("Error: File does not exist");
             throw new FileNotFoundException();
         }
         file = new RandomAccessFile(file_name, "rws");
     }
-
-/*
-    public RandomAccessFile getFile() {
-        return file;
-    }
-
-    public void setFile(RandomAccessFile file) {
-        this.file = file;
-    }
-*/
 
     /**
      * @param pos Position of the Integer to be changed
@@ -64,7 +53,7 @@ public class PersistentesArray {
      * @throws IOException if an exception occurs
      */
     public Integer getIntAtPos (Integer pos) throws IOException {
-        if (pos < 0 || pos >= file.length()) {
+        if (pos < 0 || pos >= getLength()) {
             throw new ArrayIndexOutOfBoundsException(pos);
         }
         file.seek(pos * 4);
@@ -88,7 +77,7 @@ public class PersistentesArray {
      * @throws IOException if an exception occurs
      */
     public long getLength () throws IOException {
-        return file.length();
+        return file.length() / 4;
     }
 
     /**

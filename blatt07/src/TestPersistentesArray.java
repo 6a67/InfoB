@@ -1,4 +1,6 @@
+import java.io.File;
 import java.io.IOException;
+import java.io.RandomAccessFile;
 
 /**
  *
@@ -41,7 +43,7 @@ public class TestPersistentesArray {
             totest_justname = new PersistentesArray(name);
         }
         catch (IOException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
             System.err.println("No such file exists");
         }
     }
@@ -59,10 +61,15 @@ public class TestPersistentesArray {
             x = testing_meth.totest_normal.getIntAtPos(2);
             System.out.println("Value of getIntAtPos(2) should be 4 after change with " +
                     "setIntAtPos: " + x);
+            testing_meth.totest_normal.getIntAtPos(7);
         }
         catch (IOException e) {
             e.printStackTrace();
             System.err.println("Error occurred during getting and setting of normal instance");
+        }
+        catch (ArrayIndexOutOfBoundsException e) {
+            //e.printStackTrace();
+            System.err.println("ArrayIndexOutOfBoundsException for out of bounds element");
         }
 
         try {
@@ -79,11 +86,15 @@ public class TestPersistentesArray {
             e.printStackTrace();
             System.err.println("Error occurred during getting and setting of justname instance");
         }
+        catch (ArrayIndexOutOfBoundsException e) {
+            e.printStackTrace();
+        }
 
+        TestPersistentesArray testing_meth3 = new TestPersistentesArray("Baby");
 
         try {
             System.out.println("Length of file from testing_meth should be "
-                    + int_array.length * 4 + ": " + testing_meth.totest_normal.getLength());
+                    + int_array.length + ": " + testing_meth.totest_normal.getLength());
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -99,8 +110,31 @@ public class TestPersistentesArray {
             System.err.println("Failed to close file");
         }
 
+        try {
+            testing_meth.totest_normal.setIntAtPos(2, 5);
+        }
+        catch (IOException e) {
+            System.err.println("IOException: File was closed, so no operation can be made on this object");
+        }
+
         System.out.println("All tests done");
 
+        File test_file = new File(name);
+        test_file.delete();
+        try {
+            testing_meth.totest_normal.setIntAtPos(2, 6);
+        }
+        catch (IOException e) {
+            System.err.println("File no longer exists");
+        }
 
+        try{
+            RandomAccessFile random_file = new RandomAccessFile(name, "rws");
+            random_file.writeChars("Aawdjkawldjkalodjaopdjadfaso[fas;dfkcacfk");
+            Integer x = testing_meth.totest_normal.getIntAtPos(5);
+        }
+        catch (IOException e) {
+            System.err.println("IOException for invalid reading of different type saved in file");
+        }
     }
 }
