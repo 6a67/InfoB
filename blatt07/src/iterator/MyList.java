@@ -26,6 +26,8 @@ public class MyList<E> implements Cloneable, Iterable<E> {
 
 	private int modCount;
 
+	private int itModCounter = 0;
+
 	/**
 	 * Create a new empty List.
 	 */
@@ -74,7 +76,6 @@ public class MyList<E> implements Cloneable, Iterable<E> {
 			throw new NoSuchElementException("Already at the end of this List");
 		}
 		pos = pos.next;
-		modCount++;
 	}
 
 	/**
@@ -172,23 +173,26 @@ public class MyList<E> implements Cloneable, Iterable<E> {
 		return new Iterator<E>() {
 
 			private final int modCountAtCreation = modCount;
+			private int internalItModCounter = itModCounter;
 			private MyEntry<E> current = begin;
 			private MyEntry<E> before = begin;
+
+			private boolean nextCall = false;
 
 
 			@Override
 			public boolean hasNext() {
-				if(modCountAtCreation != modCount) throw new ConcurrentModificationException();
+				if(modCountAtCreation != modCount || internalItModCounter != itModCounter) throw new ConcurrentModificationException();
 				return current.next != null;
 			}
 
 			@Override
 			public E next() {
-				if(modCountAtCreation != modCount) throw new ConcurrentModificationException();
 				if(!hasNext()) throw new NoSuchElementException();
 				E returnValue = (E) current.next.o;
 				before = current;
 				current = current.next;
+				nextCall = true;
 				return returnValue;
 			}
 
@@ -197,20 +201,16 @@ public class MyList<E> implements Cloneable, Iterable<E> {
 				if (!hasNext()) {
 					throw new NoSuchElementException("Already at the end of this List");
 				}
-				if(before == begin) {
-					begin = begin.next;
-					current = begin;
-					before = begin;
-				} else {
-					before.next = before.next.next;
-					before = current;
-				}
+				if(!nextCall) throw new RuntimeException();
+				nextCall = false;
+
+				before.next = before.next.next;
+				before = current;
+
+				itModCounter++;
+				internalItModCounter++;
 			}
 		};
-	}
-
-	public int getModCount() {
-		return this.modCount;
 	}
 }
 
