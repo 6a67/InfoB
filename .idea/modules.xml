@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/InfoB.iml" filepath="$PROJECT_DIR$/InfoB.iml" />
+      <module fileurl="file://$PROJECT_DIR$/blatt01/blatt01.iml" filepath="$PROJECT_DIR$/blatt01/blatt01.iml" />
+      <module fileurl="file://$PROJECT_DIR$/blatt02/blatt02.iml" filepath="$PROJECT_DIR$/blatt02/blatt02.iml" />
+      <module fileurl="file://$PROJECT_DIR$/blatt03/blatt03.iml" filepath="$PROJECT_DIR$/blatt03/blatt03.iml" />
+      <module fileurl="file://$PROJECT_DIR$/blatt04/blatt04.iml" filepath="$PROJECT_DIR$/blatt04/blatt04.iml" />
+      <module fileurl="file://$PROJECT_DIR$/blatt05/blatt05.iml" filepath="$PROJECT_DIR$/blatt05/blatt05.iml" />
+      <module fileurl="file://$PROJECT_DIR$/blatt06/blatt06.iml" filepath="$PROJECT_DIR$/blatt06/blatt06.iml" />
+      <module fileurl="file://$PROJECT_DIR$/blatt07/blatt07.iml" filepath="$PROJECT_DIR$/blatt07/blatt07.iml" />
+    </modules>
+  </component>
+</project>
