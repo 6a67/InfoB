@@ -21,20 +21,12 @@ public class TestMyListIterator {
         }
 
 
-        // Testen ob das Löschen des ersten Elements funktioniert
-        myList.iterator().remove();
-
-        j = 1;
-        for(Integer i: myList) {
-            assert(i == j++);
-        }
-
 
         // Testen ob das Löschen von mehreren Elementen innerhalb der Liste funktioniert
 
         // Erstelle referenz Liste mit gleichen Zahlen wie myList, außer 0, 5, 11
         MyList<Integer> refList = new MyList<Integer>();
-        for(int i = 1; i < 17; i++) {
+        for(int i = 0; i < 17; i++) {
             if(i == 5 || i == 11) continue;
             refList.add(i);
             refList.advance();
@@ -77,6 +69,34 @@ public class TestMyListIterator {
             assert(false);
         } catch (ConcurrentModificationException e) {
             System.out.println("Der Iterator wirft eine ConcurrentModificationException, wenn ein Element von außen hinzugefügt wird");
+        }
+
+        // Testet ob einer Iterator failed, wenn ein anderer Iterator ein Element entfernt
+        try {
+            Iterator<Integer> iterator2 = myList.iterator();
+            iterator2.next();
+            for(Integer i: myList) {
+                if(i.equals(9)) iterator2.remove();
+            }
+        } catch (ConcurrentModificationException e) {
+            System.out.println("Der Iterator wirft eine ConcurrentModificationException, wenn ein andere Iterator von ein Element entfernt");
+        }
+
+        // Testet ob eine Exception geworfen wird, wenn die Methode next() nicht vorm remove() aufgerufen wurde, bzw. zwei mal remove() für ein next() aufgerufen wird
+        try {
+            Iterator<Integer> iterator3 = myList.iterator();
+            iterator3.remove();
+        } catch (RuntimeException e) {
+            System.out.println("Der Iterator wirft eine RuntimeException, wenn remove() vor next() aufgerufen wird");
+        }
+
+        try {
+            Iterator<Integer> iterator4 = myList.iterator();
+            iterator4.next();
+            iterator4.remove();
+            iterator4.remove();
+        } catch (RuntimeException e) {
+            System.out.println("Der Iterator wirft eine RuntimeException, wenn zwei Mal remove() nach nur einem next() aufgerufen wird");
         }
 
     }
