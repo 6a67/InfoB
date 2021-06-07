@@ -2,6 +2,7 @@ import iterator.MyList;
 
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class TestMyListIterator {
 
@@ -97,6 +98,32 @@ public class TestMyListIterator {
             iterator4.remove();
         } catch (RuntimeException e) {
             System.out.println("Der Iterator wirft eine RuntimeException, wenn zwei Mal remove() nach nur einem next() aufgerufen wird");
+        }
+
+        // Testet was passiert, wenn der Iterator über das Ende der Liste hinaus geht
+        MyList<Integer> list2 = new MyList<Integer>();
+        list2.add(1);
+        list2.add(2);
+
+        try {
+            Iterator<Integer> iterator5 = list2.iterator();
+            iterator5.next();
+            iterator5.next();
+            iterator5.next();
+        } catch (NoSuchElementException e) {
+            System.out.println("Der Iterator wirft eine NoSuchElementException, wenn dieser über das letzte Element hinaus geht");
+        }
+
+        // Testet remove() auf einer leeren Liste
+        try {
+            Iterator<Integer> iterator6 = list2.iterator();
+            iterator6.next();
+            iterator6.remove();
+            iterator6.next();
+            iterator6.remove();
+            iterator6.remove();
+        } catch(NoSuchElementException e) {
+            System.out.println("Der Iterator wirft eine NoSuchElementException, wenn remove() auf einer leeren Liste aufgerufen wird");
         }
 
     }
