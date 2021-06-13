@@ -4,6 +4,9 @@ import java.util.Arrays;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * Program that checks the size of a file or dir every seconds and outputs if a change happened
+ */
 public class FileTimerTask {
 
     public static void main(String[] args) {
@@ -13,7 +16,6 @@ public class FileTimerTask {
                 System.out.println("Das Programm wurde beendet.");
             }
         });
-
 
         File file = new File(args[0]);
 
@@ -34,6 +36,11 @@ public class FileTimerTask {
 
     }
 
+    /**
+     * Function to get the size of both files and dirs
+     * @param input file or dir as file object
+     * @return size of the file or dir
+     */
     private static long getSize(File input) {
         if(input.isFile()) return input.length();
         long size = 0;
@@ -49,6 +56,11 @@ public class FileTimerTask {
         return size;
     }
 
+    /**
+     * Converts the size to a string
+     * @param i size in bytes
+     * @return size as string with unit
+     */
     private static String convertSize(long i) {
         double b = i;
         double k = b / 1024;

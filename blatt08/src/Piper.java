@@ -1,6 +1,10 @@
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+/**
+ * Program that takes a regular expression as input and reads from System.in; It then outputs which
+ * lines match that expression and how often it is matched per line
+ */
 public class Piper {
 
     public static void main(String[] args) {
@@ -17,7 +21,7 @@ public class Piper {
             int matches = decoReader.getAmountOfMatches();
 
             if(matches >= 1) {
-                System.out.printf("%-32s","Line " + decoReader.getLineNumber() + " with " + matches + " matches:");
+                System.out.printf("%-32s","Line " + decoReader.getLineNumber() + " with " + matches + String.format(" match%s:", (matches > 1) ? "es" : ""));
                 System.out.println(line);
             }
 
