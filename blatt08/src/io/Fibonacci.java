@@ -7,7 +7,7 @@ import java.util.HashMap;
  *
  * @author Mathias Menninghaus (mathias.menninghaus@uos.de)
  */
-public class Fibonacci implements Serializable {
+public class Fibonacci {
 
 
    private static HashMap<Integer, Long> fibonacciHash;

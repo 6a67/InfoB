@@ -11,19 +11,35 @@ public class FileTimerTask {
 
     public static void main(String[] args) {
 
+
+
+        File file = new File(args[0]);
+
+        if(!file.exists()) {
+            System.out.println(args[0] + " ist weder eine Datei noch eine Directory");
+            return;
+        }
+
+        Timer timer = new Timer();
+
         Runtime.getRuntime().addShutdownHook(new Thread() {
             public void run() {
+                timer.cancel();
                 System.out.println("Das Programm wurde beendet.");
             }
         });
-
-        File file = new File(args[0]);
 
         TimerTask timerTask = new TimerTask() {
             private long currentSize = getSize(file);
 
             @Override
             public void run() {
+                if(!file.exists()) {
+                    System.out.println(args[0] + " ist nicht mehr vorhanden");
+                    timer.cancel();
+                    return;
+                }
+
                 long tmpSize = getSize(file);
                 if(tmpSize != currentSize) {
                     currentSize = tmpSize;
@@ -32,8 +48,7 @@ public class FileTimerTask {
             }
         };
 
-        new Timer().schedule(timerTask, 0, 1000);
-
+        timer.schedule(timerTask, 0, 1000);
     }
 
     /**
