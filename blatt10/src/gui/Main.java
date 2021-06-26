@@ -14,7 +14,7 @@ public class Main {
 
 
         if(args.length != 0 && args.length != 3) {
-            System.out.println("Das Programm muss mit der Breite des Spielfeldes, der Höhe des Spielfeldes und der Anzahl der Bomben aufgerufen werden");
+            System.out.println("The program must be started with the width of the playing field, the height of the playing field and the number of bombs");
             return;
         }
 
@@ -24,14 +24,14 @@ public class Main {
                 y = Integer.parseInt(args[1]);
                 bombs = Integer.parseInt(args[2]);
             } catch (NumberFormatException e) {
-                System.out.println("Die Eingabewerte sind keine validen Integer");
+                System.out.println("The input values are not valid integers");
                 return;
             }
         }
 
 
-        if(x * y < bombs) {
-            System.out.println("Es dürfen nicht mehr Bomben als Felder existieren");
+        if(x * y <= bombs) {
+            System.out.println("There must not be more bombs than fields");
             return;
         }
 

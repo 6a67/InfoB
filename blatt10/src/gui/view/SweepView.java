@@ -64,6 +64,7 @@ public class SweepView extends JPanel implements Observer {
 
     @Override
     public void update(Observable observable, Object o) {
+        // Refreshes the field
         bombsLabel.setText("Bombs: " + model.getMarkers() + "/" + model.getBombs());
         for(int j = 0; j < ((GridLayout)minefield.getLayout()).getColumns(); j++) {
             for(int i = 0; i < ((GridLayout)minefield.getLayout()).getRows(); i++) {
@@ -75,7 +76,8 @@ public class SweepView extends JPanel implements Observer {
 
         if(model.isOver()) {
             if(model.isWon()) {
-                if(JOptionPane.showConfirmDialog(null, "You won. Do you want to generate a new Game?", "Game ended", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                // Popup dialog if the game is won
+                if(JOptionPane.showConfirmDialog(null, "You won. Do you want to generate a new game?", "Game ended", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                     model.generateGame();
                     for(int i = 0; i < fieldGrid.length; i++) {
                         for(int j = 0; j < fieldGrid[0].length; j++) {
@@ -88,7 +90,8 @@ public class SweepView extends JPanel implements Observer {
                 }
 
             } else {
-                if(JOptionPane.showConfirmDialog(null, "You lost. Do you want to restart the Game?", "Game ended", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                // Popup dialog if the game is lost
+                if(JOptionPane.showConfirmDialog(null, "You lost. Do you want to restart the game?", "Game ended", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                     model.restart();
                     for(int i = 0; i < fieldGrid.length; i++) {
                         for(int j = 0; j < fieldGrid[0].length; j++) {

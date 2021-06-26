@@ -51,7 +51,9 @@ public class Spielfeld extends Observable {
         }
     }*/
 
-
+    /**
+     * Generates the array in which it is saved how many bombs there are in a 3x3 radius
+     */
     private void generateProx() {
         prox = new int[width][height];
         for(int x = 0; x < width; x++) {
@@ -67,6 +69,9 @@ public class Spielfeld extends Observable {
         }
     }
 
+    /**
+     * Randomly generates an array with bombs
+     */
     private void generateMines() {
         mines = new boolean[width][height];
 
@@ -86,6 +91,11 @@ public class Spielfeld extends Observable {
         }
     }
 
+    /**
+     * Uncovers a given field and all fields around it if it is a field without any bombs surrounding it
+     * @param x x of the field
+     * @param y y of the field
+     */
     public void uncover(int x, int y) {
         Queue<Integer> qX = new LinkedList<>();
         Queue<Integer> qY = new LinkedList<>();
@@ -101,7 +111,17 @@ public class Spielfeld extends Observable {
                 }
                 if(prox[tmpX][tmpY] == 0) {
 
-                    qX.add(tmpX - 1);
+                    for(int i = tmpX-1; i <= tmpX+1; i++) {
+                        for(int j = tmpY-1; j <= tmpY+1; j++) {
+
+                            qX.add(i);
+                            qY.add(j);
+
+                        }
+
+                    }
+
+                    /*qX.add(tmpX - 1);
                     qY.add(tmpY);
 
                     qX.add(tmpX + 1);
@@ -111,7 +131,7 @@ public class Spielfeld extends Observable {
                     qY.add(tmpY - 1);
 
                     qX.add(tmpX);
-                    qY.add(tmpY + 1);
+                    qY.add(tmpY + 1);*/
 
                 }
                 covered[tmpX][tmpY] = false;
@@ -123,14 +143,28 @@ public class Spielfeld extends Observable {
         this.notifyObservers();
     }
 
+    /**
+     * Checks if the game is over
+     * @return true if game is over, false if not
+     */
     public boolean isOver() {
         return over || isWon();
     }
 
+    /**
+     * Checks if the game is won
+     * @return true if the game is won, false if not
+     */
     public boolean isWon() {
         return (coveredElements == bombs);
     }
 
+    /**
+     * Checks both the bomb and the prox array and returns what should be on the field
+     * @param x x of the field
+     * @param y y of the field
+     * @return String of the char that should be displayed on the field
+     */
     public String getField(int x, int y) {
         if(mines[x][y]) {
             return "*";
@@ -144,30 +178,51 @@ public class Spielfeld extends Observable {
 
     }
 
+    /**
+     * Checks if a given field is covered
+     * @param x x of the field
+     * @param y y of the field
+     * @return true if the field is covered, false if not
+     */
     public boolean isCovered(int x, int y) {
         return covered[x][y];
     }
 
+    /**
+     * Counts the marker value up by one
+     */
     public void addMarker() {
         markers++;
         this.setChanged();
         this.notifyObservers();
     }
 
+    /**
+     * Counts the marker value down by one
+     */
     public void removeMarker() {
         markers--;
         this.setChanged();
         this.notifyObservers();
     }
 
+    /**
+     * @return marker value
+     */
     public int getMarkers() {
         return markers;
     }
 
+    /**
+     * @return amount of bombs on the field
+     */
     public int getBombs() {
         return bombs;
     }
 
+    /**
+     * Resets the game to its original state
+     */
     public void restart() {
         for(int j = 0; j < height; j++) {
             for(int i = 0; i < width; i++) {
@@ -181,6 +236,9 @@ public class Spielfeld extends Observable {
         this.notifyObservers();
     }
 
+    /**
+     * Generates a new field
+     */
     public void generateGame() {
         restart();
         generateMines();
@@ -190,6 +248,9 @@ public class Spielfeld extends Observable {
         this.notifyObservers();
     }
 
+    /**
+     * Prints the uncovered field to the console
+     */
     private void printer() {
         for(int j = 0; j < height; j++) {
             for(int i = 0; i < width; i++) {

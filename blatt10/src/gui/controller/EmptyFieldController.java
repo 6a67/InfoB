@@ -25,7 +25,6 @@ public class EmptyFieldController extends MouseAdapter {
 
 
     public void mouseClicked(MouseEvent e) {
-
         switch (e.getButton()) {
             case MouseEvent.BUTTON1:
                 layout.show(panel, "Field");
