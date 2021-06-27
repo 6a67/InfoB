@@ -18,12 +18,14 @@ public class SweepView extends JPanel implements Observer {
     private JLabel[][] values;
 
 
-    public SweepView(Spielfeld model, int x, int y) {
+    public SweepView(Spielfeld model) {
         this.model = model;
         this.model.addObserver(this);
+        int x = model.getWidth();
+        int y = model.getHeight();
         this.setLayout(new BorderLayout());
         this.bombsLabel = new JLabel("Bombs: " + model.getMarkers() + "/" + model.getBombs());
-        this.bombsLabel.setFont(bombsLabel.getFont().deriveFont (16.0f));
+        this.bombsLabel.setFont(bombsLabel.getFont().deriveFont(16.0f));
         this.add(bombsLabel);
 
         this.minefield = new JPanel();
@@ -40,17 +42,17 @@ public class SweepView extends JPanel implements Observer {
                 fieldGrid[i][j].setLayout(new CardLayout());
 
                 values[i][j] = new JLabel(String.valueOf(model.getField(i, j)), SwingConstants.CENTER);
-                values[i][j].setFont(values[i][j].getFont().deriveFont (20.0f));
+                values[i][j].setFont(values[i][j].getFont().deriveFont(20.0f));
                 fieldGrid[i][j].add(values[i][j], "Field");
 
                 JButton jb1 = new JButton();
                 jb1.setPreferredSize(new Dimension(40,40));
-                jb1.addMouseListener(new EmptyFieldController(model, ((CardLayout) fieldGrid[i][j].getLayout()), fieldGrid[i][j], i, j));
+                jb1.addMouseListener(new EmptyFieldController(model, fieldGrid[i][j], i, j));
                 fieldGrid[i][j].add(jb1, "EmptyButton");
 
                 JButton jb2 = new JButton("!");
                 jb2.setPreferredSize(new Dimension(40,40));
-                jb2.addMouseListener(new MarkedFieldController(model, ((CardLayout) fieldGrid[i][j].getLayout()), fieldGrid[i][j]));
+                jb2.addMouseListener(new MarkedFieldController(model, fieldGrid[i][j]));
                 jb2.setVisible(true);
                 fieldGrid[i][j].add(jb2, "MineButton");
 
@@ -98,7 +100,6 @@ public class SweepView extends JPanel implements Observer {
                             ((CardLayout) fieldGrid[i][j].getLayout()).show(fieldGrid[i][j], "EmptyButton");
                         }
                     }
-                    bombsLabel.setText("Bombs: " + model.getMarkers() + "/" + model.getBombs());
                 } else {
                     System.exit(0);
                 }

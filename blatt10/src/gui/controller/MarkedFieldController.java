@@ -10,12 +10,10 @@ import java.awt.event.MouseEvent;
 public class MarkedFieldController extends MouseAdapter {
 
     private Spielfeld model;
-    private CardLayout layout;
     private JPanel panel;
 
-    public MarkedFieldController(Spielfeld model, CardLayout layout, JPanel panel) {
+    public MarkedFieldController(Spielfeld model, JPanel panel) {
         this.model = model;
-        this.layout = layout;
         this.panel = panel;
     }
 
@@ -23,7 +21,7 @@ public class MarkedFieldController extends MouseAdapter {
     public void mouseClicked(MouseEvent e) {
         if(e.getButton() == MouseEvent.BUTTON3) {
             model.removeMarker();
-            layout.show(panel, "EmptyButton");
+            ((CardLayout)panel.getLayout()).show(panel, "EmptyButton");
         }
     }
 

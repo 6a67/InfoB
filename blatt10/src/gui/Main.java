@@ -38,7 +38,7 @@ public class Main {
         JFrame frame = new JFrame("Sweep");
         frame.setResizable(false);
         Spielfeld model = new Spielfeld(x, y, bombs);
-        SweepView sweepView = new SweepView(model, x, y);
+        SweepView sweepView = new SweepView(model);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setContentPane(sweepView);
         frame.pack();

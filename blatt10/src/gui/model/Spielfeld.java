@@ -26,8 +26,6 @@ public class Spielfeld extends Observable {
         this.width = x;
         this.height = y;
         this.bombs = bombs;
-        covered = new boolean[x][y];
-        coveredElements = x*y;
         generateGame();
     }
 
@@ -87,7 +85,6 @@ public class Spielfeld extends Observable {
                 mines[rdmX][rdmY] = true;
                 tmpBombs--;
             }
-
         }
     }
 
@@ -110,13 +107,10 @@ public class Spielfeld extends Observable {
                     break;
                 }
                 if(prox[tmpX][tmpY] == 0) {
-
                     for(int i = tmpX-1; i <= tmpX+1; i++) {
                         for(int j = tmpY-1; j <= tmpY+1; j++) {
-
                             qX.add(i);
                             qY.add(j);
-
                         }
 
                     }
@@ -224,6 +218,7 @@ public class Spielfeld extends Observable {
      * Resets the game to its original state
      */
     public void restart() {
+        covered = new boolean[width][height];
         for(int j = 0; j < height; j++) {
             for(int i = 0; i < width; i++) {
                 covered[i][j] = true;
@@ -274,5 +269,11 @@ public class Spielfeld extends Observable {
         System.out.println();
     }
 
+    public int getWidth() {
+        return width;
+    }
 
+    public int getHeight() {
+        return height;
+    }
 }
