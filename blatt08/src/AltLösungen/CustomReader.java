@@ -11,6 +11,7 @@ public class CustomReader extends LineNumberReader {
 
     private int amount_of_matches = 0;
     private String express = null;
+    private String currentLine = null;
     /**
      * Create a new line-numbering reader, using the default input-buffer
      * size.
@@ -44,20 +45,16 @@ public class CustomReader extends LineNumberReader {
      */
     @Override
     public String readLine() throws IOException {
-        return super.readLine();
+        currentLine = super.readLine();
+        return currentLine;
     }
 
 
     public int getAmountOfMatches() {
         Pattern p = Pattern.compile(this.express);
-        try {
-            Matcher m = p.matcher(this.readLine());
-            if (m.matches()) {
-                this.amount_of_matches++;
-            }
-        }
-        catch (IOException e) {
-            System.err.println("Error while reading line in getAmountofMatches method");
+        Matcher m = p.matcher(currentLine);
+        if (m.matches()) {
+            this.amount_of_matches++;
         }
         return this.amount_of_matches;
     }

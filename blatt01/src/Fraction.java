@@ -77,9 +77,9 @@ public class Fraction {
 	 */
 	public Fraction multiply(Fraction... factors) {
 		Fraction produkt = new Fraction(numerator, denominator);
-		
-		for(int i = 0; i < factors.length; i++) {
-			produkt = produkt.multiply(factors[i]);
+
+		for (Fraction factor : factors) {
+			produkt = produkt.multiply(factor);
 		}
 		
 		return produkt;
