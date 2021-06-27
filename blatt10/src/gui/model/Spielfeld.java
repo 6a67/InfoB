@@ -6,11 +6,7 @@ import java.util.Queue;
 import java.util.Random;
 
 public class Spielfeld extends Observable {
-
-    boolean[][] mines;
-    int[][] prox;
-
-    boolean[][] covered;
+    Field[][] fields;
 
     int coveredElements = 0;
 
@@ -53,13 +49,12 @@ public class Spielfeld extends Observable {
      * Generates the array in which it is saved how many bombs there are in a 3x3 radius
      */
     private void generateProx() {
-        prox = new int[width][height];
         for(int x = 0; x < width; x++) {
             for(int y = 0; y < height; y++) {
-                if(mines[x][y]) {
+                if(fields[x][y].isMine()) {
                     for(int o = x-1; o <= x+1; o++) {
                         for(int p = y-1; p <= y+1; p++) {
-                            if(o >= 0 && p >= 0 && o < width && p < height) prox[o][p]++;
+                            if(o >= 0 && p >= 0 && o < width && p < height) fields[o][p].increaseProx();
                         }
                     }
                 }
@@ -71,8 +66,6 @@ public class Spielfeld extends Observable {
      * Randomly generates an array with bombs
      */
     private void generateMines() {
-        mines = new boolean[width][height];
-
         int tmpBombs = bombs;
 
         Random r = new Random();
@@ -81,8 +74,8 @@ public class Spielfeld extends Observable {
             int rdmX = r.nextInt(width);
             int rdmY = r.nextInt(height);
 
-            if(!mines[rdmX][rdmY]) {
-                mines[rdmX][rdmY] = true;
+            if(!fields[rdmX][rdmY].isMine()) {
+                fields[rdmX][rdmY].setMine(true);
                 tmpBombs--;
             }
         }
@@ -101,12 +94,12 @@ public class Spielfeld extends Observable {
         while(!qX.isEmpty()) {
             int tmpX = qX.remove();
             int tmpY = qY.remove();
-            if(tmpX >= 0 && tmpY >= 0 && tmpX < width &&  tmpY < height && covered[tmpX][tmpY]) {
-                if(mines[tmpX][tmpY]) {
+            if(tmpX >= 0 && tmpY >= 0 && tmpX < width &&  tmpY < height && fields[tmpX][tmpY].isCovered()) {
+                if(fields[tmpX][tmpY].isMine()) {
                     over = true;
                     break;
                 }
-                if(prox[tmpX][tmpY] == 0) {
+                if(fields[tmpX][tmpY].getProx() == 0) {
                     for(int i = tmpX-1; i <= tmpX+1; i++) {
                         for(int j = tmpY-1; j <= tmpY+1; j++) {
                             qX.add(i);
@@ -128,7 +121,7 @@ public class Spielfeld extends Observable {
                     qY.add(tmpY + 1);*/
 
                 }
-                covered[tmpX][tmpY] = false;
+                fields[tmpX][tmpY].setCovered(false);
                 coveredElements--;
             }
         }
@@ -160,16 +153,7 @@ public class Spielfeld extends Observable {
      * @return String of the char that should be displayed on the field
      */
     public String getField(int x, int y) {
-        if(mines[x][y]) {
-            return "*";
-        } else {
-            if(prox[x][y] > 0) {
-                return String.valueOf(prox[x][y]);
-            } else {
-                return "";
-            }
-        }
-
+        return fields[x][y].getField();
     }
 
     /**
@@ -179,7 +163,7 @@ public class Spielfeld extends Observable {
      * @return true if the field is covered, false if not
      */
     public boolean isCovered(int x, int y) {
-        return covered[x][y];
+        return fields[x][y].isCovered();
     }
 
     /**
@@ -218,10 +202,9 @@ public class Spielfeld extends Observable {
      * Resets the game to its original state
      */
     public void restart() {
-        covered = new boolean[width][height];
         for(int j = 0; j < height; j++) {
             for(int i = 0; i < width; i++) {
-                covered[i][j] = true;
+                fields[i][j].setCovered(true);
             }
         }
         markers = 0;
@@ -235,10 +218,17 @@ public class Spielfeld extends Observable {
      * Generates a new field
      */
     public void generateGame() {
+        fields = new Field[width][height];
+        for(int j = 0; j < height; j++) {
+            for(int i = 0; i < width; i++) {
+                fields[i][j] = new Field();
+            }
+        }
         restart();
         generateMines();
         generateProx();
         printer();
+        System.gc();
         this.setChanged();
         this.notifyObservers();
     }
@@ -249,13 +239,13 @@ public class Spielfeld extends Observable {
     private void printer() {
         for(int j = 0; j < height; j++) {
             for(int i = 0; i < width; i++) {
-                if(mines[i][j]) {
+                if(fields[i][j].isMine()) {
                     System.out.format("%-3s", "*");
                 } else {
-                    if(prox[i][j] > 0) {
-                        System.out.format("%-3d", prox[i][j]);
+                    if(fields[i][j].getProx() > 0) {
+                        System.out.format("%-3d", fields[i][j].getProx());
                     } else {
-                        if(covered[i][j]) {
+                        if(fields[i][j].isCovered()) {
                             System.out.format("%-3s", "0");
                         } else {
                             System.out.format("%-3s", "");
